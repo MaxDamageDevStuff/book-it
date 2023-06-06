@@ -2,29 +2,34 @@
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
-This repository contains the source of "The Rust Programming Language" book.
+This repo contains the source of the italian version of "The Rust Programming Language" book. If you wish the repo of the original version of it (English), please check this [link][ original ]:
 
-[The book is available in dead-tree form from No Starch Press][nostarch].
+[ original ]: https://github.com/rust-lang/book
+
+Questo repository contiene i sorgenti del libro "The Rust Programming Language" tradotto in italiano. La traduzione è ancora estremamente incompleta e poco rifinita, per tanto se ne sconsiglia l'utilizzo per un serio apprendimento. 
+
+Molti link presenti in questo README rimandano direttamente alle versioni originali (in inglese) degli stessi. 
+
+Ogni contribuzione è gradita : )
+
+[Questo libro è disponibile anche in forma dead-tree (stampata) su No Starch Press (solo in inglese)][nostarch].
 
 [nostarch]: https://nostarch.com/rust
 
-You can also read the book for free online. Please see the book as shipped with
-the latest [stable], [beta], or [nightly] Rust releases. Be aware that issues
-in those versions may have been fixed in this repository already, as those
-releases are updated less frequently.
+Puoi leggere gratuitamente il libro online. Ti preghiamo di usare il libro  dell'ultima versione [stable], [beta], o [nightly] di Rust rilasciata. Tieni presente che i problemi
+presenti in queste versioni versioni potrebbero essere già stati corretti in questo repository, visto che sono versioni aggiornate con una frequenza minore.
 
 [stable]: https://doc.rust-lang.org/stable/book/
 [beta]: https://doc.rust-lang.org/beta/book/
 [nightly]: https://doc.rust-lang.org/nightly/book/
 
-See the [releases] to download just the code of all the code listings that appear in the book.
+Visita [releases] per scaricare solo il codice di tutti gli esempi che appaiono nel libro.
 
 [releases]: https://github.com/rust-lang/book/releases
 
-## Requirements
+## Requisiti
 
-Building the book requires [mdBook], ideally the same version that
-rust-lang/rust uses in [this file][rust-mdbook]. To get it:
+Buildare il libro richiede [mdBook], preferibilmente usando la stessa versione utilizzata in [questo file][rust-mdbook] di rust-lang/rust . Per ottenerlo usa il seguente comando:
 
 [mdBook]: https://github.com/rust-lang-nursery/mdBook
 [rust-mdbook]: https://github.com/rust-lang/rust/blob/master/src/tools/rustbook/Cargo.toml
@@ -35,16 +40,16 @@ $ cargo install mdbook --version <version_num>
 
 ## Building
 
-To build the book, type:
+per buildare il libro, digita:
 
 ```bash
 $ mdbook build
 ```
 
-The output will be in the `book` subdirectory. To check it out, open it in
-your web browser.
+L'output sarà nella sottocartella `book` . Per dargli un'occhiata, aprilo nel tuo web browser.
 
 _Firefox:_
+
 ```bash
 $ firefox book/index.html                       # Linux
 $ open -a "Firefox" book/index.html             # OS X
@@ -53,6 +58,7 @@ $ start firefox.exe .\book\index.html           # Windows (Cmd)
 ```
 
 _Chrome:_
+
 ```bash
 $ google-chrome book/index.html                 # Linux
 $ open -a "Google Chrome" book/index.html       # OS X
@@ -60,7 +66,7 @@ $ Start-Process "chrome.exe" .\book\index.html  # Windows (PowerShell)
 $ start chrome.exe .\book\index.html            # Windows (Cmd)
 ```
 
-To run the tests:
+Per eseguire i test:
 
 ```bash
 $ mdbook test

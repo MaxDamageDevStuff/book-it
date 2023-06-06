@@ -1,16 +1,10 @@
 ## References and Borrowing
 
-The issue with the tuple code in Listing 4-5 is that we have to return the
-`String` to the calling function so we can still use the `String` after the
-call to `calculate_length`, because the `String` was moved into
-`calculate_length`. Instead, we can provide a reference to the `String` value.
-A *reference* is like a pointer in that it’s an address we can follow to access
-the data stored at that address; that data is owned by some other variable.
-Unlike a pointer, a reference is guaranteed to point to a valid value of a
-particular type for the life of that reference.
+Il problema della tupla presente nel codice in Listing 4-5 è che dobbiamo ritornare la
+`String` alla funzione chiamante, così che possiamo continuare ad usufruire dekka stessa anche dopo la chiamata di `calculate_length`, perché la `String` è stata spostata in `calculate_length`. Invece di usare questo metodo macchinoso, possiamo fornire alla funzione una reference al valore `String`. Una *reference* è simile ad un puntatore in quanto essa è un indirizzo che possiamo seguire per accedere ai dati memorizzati a quel dato indirizzo; quei dati sono di proprietà di un'altra variabile.
+A differenza di un puntatore però, una reference dà la garanzia di puntare ad un valore valido di un tipo particolare per l'intero ciclo vitale della reference.
 
-Here is how you would define and use a `calculate_length` function that has a
-reference to an object as a parameter instead of taking ownership of the value:
+Ecco come definire ed usare una funzione `calculate_length` che ha una reference ad un oggetto come parametro invece di prendere possesso del valore:
 
 <span class="filename">Filename: src/main.rs</span>
 
@@ -18,18 +12,13 @@ reference to an object as a parameter instead of taking ownership of the value:
 {{#rustdoc_include ../listings/ch04-understanding-ownership/no-listing-07-reference/src/main.rs:all}}
 ```
 
-First, notice that all the tuple code in the variable declaration and the
-function return value is gone. Second, note that we pass `&s1` into
-`calculate_length` and, in its definition, we take `&String` rather than
-`String`. These ampersands represent *references*, and they allow you to refer
-to some value without taking ownership of it. Figure 4-5 depicts this concept.
+Per prima cosa, nota come sia sparito tutto il codice della tupla nella dichiarazione della variabile e nel valore di ritorno della funzione. In secondo luogo, nota che abbiamo passato `&s1` in `calculate_length` e, nella sua definizione, prendiamo `&String` piuttosto che
+`String`. Queste E commerciali rappresentano delle *reference*, e ti permettono di riferirti ad un valore senza prenderne l'ownership. La Figura 4-5 illustra questo concetto.
 
-<img alt="Three tables: the table for s contains only a pointer to the table
-for s1. The table for s1 contains the stack data for s1 and points to the
-string data on the heap." src="img/trpl04-05.svg" class="center" />
+<img alt="Tre tabelle: la tabella per s contiene solo un puntatore alla tabella per s1. La tabella per s1 contiene i dati della pila per s1 e punta ai dati della stringa sulla coda."
+src="img/trpl04-05.svg" class="center" />
 
-<span class="caption">Figure 4-5: A diagram of `&String s` pointing at `String
-s1`</span>
+<span class="caption">Figura 4-5: Un diagramma di `&String s` che punta a `String s1`</span>
 
 > Note: The opposite of referencing by using `&` is *dereferencing*, which is
 > accomplished with the dereference operator, `*`. We’ll see some uses of the

@@ -1,33 +1,22 @@
-# Programming a Guessing Game
+# Programmare un Guessing Game
 
-Let’s jump into Rust by working through a hands-on project together! This
-chapter introduces you to a few common Rust concepts by showing you how to use
-them in a real program. You’ll learn about `let`, `match`, methods, associated
-functions, external crates, and more! In the following chapters, we’ll explore
-these ideas in more detail. In this chapter, you’ll just practice the
-fundamentals.
+Addentriamoci nella programmazione in Rust lavorando insieme ad un progetto più pratico! Questo capitolo ti introduce a diversi concetti comuni di Rust mostrandoti come usarli in un programma reale. Imparerai come usare `let`, `match`, metodi, funzioni associate, crate esterni, ed altro ancora! Nei capitoli successivi, esploreremo questi concetti con maggior dettaglio. In questo capitolo, farai solo pratica dei fondamenti.
 
-We’ll implement a classic beginner programming problem: a guessing game. Here’s
-how it works: the program will generate a random integer between 1 and 100. It
-will then prompt the player to enter a guess. After a guess is entered, the
-program will indicate whether the guess is too low or too high. If the guess is
-correct, the game will print a congratulatory message and exit.
+Implementeremo un classico problema per programmatori principianti: un guessing game. Ecco come funzionerà: il programma genererà un intero casuale tra 1 e 100. Poi chiederà all'utente di indovinare. Dopo che l'utente avrà inserito la sua risposta, il programma gli indicherà se la sua risposta è troppo bassa o troppo alta. Se la risposta è corretta, il gioco stamperà un messaggio di congratulazioni ed uscirà.
 
-## Setting Up a New Project
+## Impostare un Nuovo Progetto
 
-To set up a new project, go to the *projects* directory that you created in
-Chapter 1 and make a new project using Cargo, like so:
+Per impostare un nuovo progetto, vai alla cartella *projects* che hai creato nel Capitolo 1 e crea un nuovo progetto usando Cargo, così:
 
 ```console
 $ cargo new guessing_game
 $ cd guessing_game
 ```
 
-The first command, `cargo new`, takes the name of the project (`guessing_game`)
-as the first argument. The second command changes to the new project’s
-directory.
+Il primo comando, `cargo new`, prende il nome del progetto (`guessing_game`)
+come primo argomento. Il secondo comando va alla cartella del nuovo progetto.
 
-Look at the generated *Cargo.toml* file:
+Guarda il file *Cargo.toml* appena generato:
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial
@@ -44,245 +33,170 @@ cd ../../..
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/Cargo.toml}}
 ```
 
-As you saw in Chapter 1, `cargo new` generates a “Hello, world!” program for
-you. Check out the *src/main.rs* file:
+Come hai visto nel primo capitolo, `cargo new` genera un programma “Hello, world!” per te. Controlla il file *src/main.rs*:
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome File: src/main.rs</span>
 
 ```rust
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/src/main.rs}}
 ```
 
-Now let’s compile this “Hello, world!” program and run it in the same step
-using the `cargo run` command:
+Ora compila questo programma “Hello, world!” ed eseguilo allo stesso tempo usando il comando `cargo run`:
 
 ```console
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-01-cargo-new/output.txt}}
 ```
 
-The `run` command comes in handy when you need to rapidly iterate on a project,
-as we’ll do in this game, quickly testing each iteration before moving on to
-the next one.
+Il comando `run` diventa utile quando hai bisogno di iterare rapidamente durante un progetto, come faremo con questo gioco, testando rapidamente ogni iterazione prima di andare avanti alla prossima.
 
-Reopen the *src/main.rs* file. You’ll be writing all the code in this file.
+Riapri il file *src/main.rs*. Scriverai tutto il codice in questo file.
 
-## Processing a Guess
+## Elaborare una Risposta
 
-The first part of the guessing game program will ask for user input, process
-that input, and check that the input is in the expected form. To start, we’ll
-allow the player to input a guess. Enter the code in Listing 2-1 into
-*src/main.rs*.
+La prima parte del guessing game chiederà all'utente un input, processerà
+quest'input, e controllerà che l'input sia nella forma che si attende. Per iniziare, permetteremo al giocatore di inserire una risposta. Inserici il codice presente in Listing 2-1 in *src/main.rs*.
 
-<span class="filename">Filename: src/main.rs</span>
+<span class="filename">Nome File: src/main.rs</span>
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:all}}
 ```
 
-<span class="caption">Listing 2-1: Code that gets a guess from the user and
-prints it</span>
+<span class="caption">Listing 2-1: Codice che prende la risposta dall'utente e la stampa</span>
 
-This code contains a lot of information, so let’s go over it line by line. To
-obtain user input and then print the result as output, we need to bring the
-`io` input/output library into scope. The `io` library comes from the standard
-library, known as `std`:
+Questo codice contiene molte informazioni, perciò analizziamolo riga per riga. Per ottenere un input dall'utente e poi stampare il risultato come output, dobbiamo importare la libreria di input/output `io` nello scope. La libreria `io` viene dalla libreria standard, conosciuta come `std`:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:io}}
 ```
 
-By default, Rust has a set of items defined in the standard library that it
-brings into the scope of every program. This set is called the *prelude*, and
-you can see everything in it [in the standard library documentation][prelude].
+Di default, Rust ha un set di elementi definiti nella standard library che vengono portati nello scope di ogni programma. Questo set è chiamato il *prelude*, e puoi vedere tutto ciò che contiene [nella documentazione della standard library (inglese)][prelude].
 
-If a type you want to use isn’t in the prelude, you have to bring that type
-into scope explicitly with a `use` statement. Using the `std::io` library
-provides you with a number of useful features, including the ability to accept
-user input.
+Se un tipo che vuoi usare non è presente nel prelude, dovrai portare quel tipo in scope esplicitandolo con uno  `use` statement. Usare la libreria `std::io` ti fornisce un buon numero di feature utili, che includono l'abilità di accettare input dall'utente.
 
-As you saw in Chapter 1, the `main` function is the entry point into the
-program:
+Come hai visto nel Capitolo 1, la funzione `main` è l'entry point all'interno del programma:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:main}}
 ```
 
-The `fn` syntax declares a new function; the parentheses, `()`, indicate there
-are no parameters; and the curly bracket, `{`, starts the body of the function.
+La sintassi `fn` dichiara una nuova funzione; le parentesi tonde vuote, `()`, indicano che non sono presenti particolari parametri; e la parentesi graffa, `{`, indica l'inizio del body della funzione.
 
-As you also learned in Chapter 1, `println!` is a macro that prints a string to
-the screen:
+Come avrai imparato nel Capitolo 1, `println!` è una macro che stampa una stringa a schermo:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:print}}
 ```
 
-This code is printing a prompt stating what the game is and requesting input
-from the user.
+Questo codice sta stampando una richiesta che dice qual è il gioco e chiedendo un input all'utente.
 
-### Storing Values with Variables
+### Memorizzare valori con le variabili
 
-Next, we’ll create a *variable* to store the user input, like this:
+Successivamente, creeremo una *variabile* per memorizzare l'input dell'utente, così:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:string}}
 ```
 
-Now the program is getting interesting! There’s a lot going on in this little
-line. We use the `let` statement to create the variable. Here’s another example:
+Ora il programma si sta facendo interessante! Stanno succedendo molte cose in questa piccola riga. Usiamo lo statement `let` per creare la variabile. Ecco un altro esempio:
 
 ```rust,ignore
 let apples = 5;
 ```
 
-This line creates a new variable named `apples` and binds it to the value 5. In
-Rust, variables are immutable by default, meaning once we give the variable a
-value, the value won’t change. We’ll be discussing this concept in detail in
-the [“Variables and Mutability”][variables-and-mutability]<!-- ignore -->
-section in Chapter 3. To make a variable mutable, we add `mut` before the
-variable name:
+Questa riga crea una nuova variabile chiamata `apples` e le dà il valore 5. In
+Rust, le variabili sono rese immutabili di default, ciò significa che una volta che diamo un valore ad una variabile, quel valore non cambierà. Discuteremo questo concetto più in dettaglio nella sezione [“Variabili e Mutabilità”][variables-and-mutability]<!-- ignore -->
+del Capitolo 3. Per rendere mutabile una variabile, aggiungiamo `mut` prima del nome della variabile:
 
 ```rust,ignore
 let apples = 5; // immutable
 let mut bananas = 5; // mutable
 ```
 
-> Note: The `//` syntax starts a comment that continues until the end of the
-> line. Rust ignores everything in comments. We’ll discuss comments in more
-> detail in [Chapter 3][comments]<!-- ignore -->.
+> Nota: La sintassi `//` indica l'inizio di un commento che continua fino alla fine della riga. Rust ignora tutto ciò che è presente nei commenti. Discuteremo dei commenti più in dettaglio nel [Capitolo 3][comments]<!-- ignore -->.
 
-Returning to the guessing game program, you now know that `let mut guess` will
-introduce a mutable variable named `guess`. The equal sign (`=`) tells Rust we
-want to bind something to the variable now. On the right of the equal sign is
-the value that `guess` is bound to, which is the result of calling
-`String::new`, a function that returns a new instance of a `String`.
-[`String`][string]<!-- ignore --> is a string type provided by the standard
-library that is a growable, UTF-8 encoded bit of text.
+Tornando al nostro programma, adesso sai che `let mut guess` introdurrà una variabile mutabile chiamata `guess`. Il segno uguale (`=`) dice a Rust che vogliamo assegnare qualcosa alla variabile. A destra del segno uguale c'è il valore che sarà assegnato a  `guess` , che è il risultato della chiamata di `String::new`, una funzione che ritorna una nuova istanza di una `String`.
+[`String`][string]<!-- ignore --> è un tipo fornito dalla standard
+library, ed è un pezzettino di testo estendibile, codificato in UTF-8.
 
-The `::` syntax in the `::new` line indicates that `new` is an associated
-function of the `String` type. An *associated function* is a function that’s
-implemented on a type, in this case `String`. This `new` function creates a
-new, empty string. You’ll find a `new` function on many types because it’s a
-common name for a function that makes a new value of some kind.
+La sintassi `::` nella riga `::new` indica che `new` è una funzione associata al tipo `String`. Una *funzione associata* è una funzione che viene implementata per uno specifico tipo, in questo caso `String`. Questa funzione `new` crea una nuova stringa vuota. Troverai una funzione `new` in molti tipi perché è un nome comune per una funzione che crea un nuovo valore di qualche sorta.
 
-In full, the `let mut guess = String::new();` line has created a mutable
-variable that is currently bound to a new, empty instance of a `String`. Whew!
+Nella sua interezza, la riga `let mut guess = String::new();` ha creato una variabile mutabile a cui è assegnata attualmente una nuova istanza vuota di una `String`. Whew!
 
-### Receiving User Input
+### Prendere Input dall'Utente
 
-Recall that we included the input/output functionality from the standard
-library with `use std::io;` on the first line of the program. Now we’ll call
-the `stdin` function from the `io` module, which will allow us to handle user
-input:
+Ricorda che abbiamo incluso le funzionalità di input/output functionality dalla standard
+library con `use std::io;` nella prima riga del programma. Ora chiameremo la funzione `stdin` dal modulo `io` , che ci permetterà di gestire gli input dell'utente:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:read}}
 ```
 
-If we hadn’t imported the `io` library with `use std::io;` at the beginning of
-the program, we could still use the function by writing this function call as
-`std::io::stdin`. The `stdin` function returns an instance of
-[`std::io::Stdin`][iostdin]<!-- ignore -->, which is a type that represents a
-handle to the standard input for your terminal.
+Se non avessimo importato la libreria `io` con `use std::io;` all'inizio del programma, potremmo continuare ad utilizzare la funzione scrivendo la sua chiamata come `std::io::stdin`. La funzione `stdin` ritorna un'istanza di [`std::io::Stdin`][iostdin]<!-- ignore -->, che è un tipo che rappresenta un handle per il tuo terminale.
 
-Next, the line `.read_line(&mut guess)` calls the [`read_line`][read_line]<!--
-ignore --> method on the standard input handle to get input from the user.
-We’re also passing `&mut guess` as the argument to `read_line` to tell it what
-string to store the user input in. The full job of `read_line` is to take
-whatever the user types into standard input and append that into a string
-(without overwriting its contents), so we therefore pass that string as an
-argument. The string argument needs to be mutable so the method can change the
-string’s content.
+Successivamente, la riga `.read_line(&mut guess)` chiama il metodo [`read_line`][read_line]<!--
+ignore --> dell'handle dello standard input per prendere input dall'utente.
+Passeremo anche `&mut guess` come argomento a `read_line` per indicarle in quale stringa memorizzare l'input. Il lavoro di `read_line` è quello di prendere qualunque cosa l'utente scriva nello standard input e aggiungerlo in coda ad una stringa
+(senza sovrascriverne il contenuto), è ragione per cui passiamo quella stringa come argomento. L'argomento stringa necessita di essere mutabile, in modo tale che il metodo possa cambiarne il contenuto.
 
-The `&` indicates that this argument is a *reference*, which gives you a way to
-let multiple parts of your code access one piece of data without needing to
-copy that data into memory multiple times. References are a complex feature,
-and one of Rust’s major advantages is how safe and easy it is to use
-references. You don’t need to know a lot of those details to finish this
-program. For now, all you need to know is that, like variables, references are
-immutable by default. Hence, you need to write `&mut guess` rather than
-`&guess` to make it mutable. (Chapter 4 will explain references more
-thoroughly.)
+L' `&` indica che questo argomento è una *reference*, che ti dà un modo per dare accesso ad un pezzo di dato a più parti di codice senza doverlo ricopiare in memoria più volte. Le reference sono una feature complessa, ed uno dei maggiori vantaggi di Rust è la facilità e sicurezza che dà nell'utilizzo delle reference. Non hai bisogno di conoscere molti di questi dettagli per finire questo programma. Per ora, tutto ciò che devi sapere è che, come le variabili, le reference sono rese immutabili di default. Quindi, dovrai scrivere `&mut guess` piuttosto che `&guess` per renderla mutabile. (il Capitolo 4 spiegherà le reference in maniera più completa.)
 
 <!-- Old heading. Do not remove or links may break. -->
+
 <a id="handling-potential-failure-with-the-result-type"></a>
 
-### Handling Potential Failure with `Result`
+### Gestire Potenziali Falle con `Result`
 
-We’re still working on this line of code. We’re now discussing a third line of
-text, but note that it’s still part of a single logical line of code. The next
-part is this method:
+Continuiamo a lavorare su questa riga di codice. Ora parleremo di una terza riga di testo, ma nota che continua a far parte di una singola riga logica di codice. La prossima parte è questo metodo:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:expect}}
 ```
 
-We could have written this code as:
+Avremmo potuto scrivere questo codice in questo modo:
 
 ```rust,ignore
 io::stdin().read_line(&mut guess).expect("Failed to read line");
 ```
 
-However, one long line is difficult to read, so it’s best to divide it. It’s
-often wise to introduce a newline and other whitespace to help break up long
-lines when you call a method with the `.method_name()` syntax. Now let’s
-discuss what this line does.
+Tuttavia, una riga così lunga è difficile da leggere, quindi è sempre meglio dividerla in più pezzi. È spesso saggio andare a capo ed altri spazi per aiutare a spezzettare lunghe righe quando chiami un metodo con la sintassi `.method_name()` . Adesso discutiamo insieme cosa fa questa riga.
 
-As mentioned earlier, `read_line` puts whatever the user enters into the string
-we pass to it, but it also returns a `Result` value. [`Result`][result]<!--
-ignore --> is an [*enumeration*][enums]<!-- ignore -->, often called an *enum*,
-which is a type that can be in one of multiple possible states. We call each
-possible state a *variant*.
+Come menzionato precedentemente, `read_line` mette qualunque cosa l'utente inserisca, nella stringa che le viene passata, ma ritorna anche un valore `Result` . [`Result`][result]<!--
+ignore --> è un'[*enumeration (enumerazione in inglese)*][enums]<!-- ignore -->, spesso chiamato *enum*,
+ovvero un tipo che può trovarsi in uno o più stati. Chiamiamo ogni possibile stato una *variant* (variante in inglese).
 
-[Chapter 6][enums]<!-- ignore --> will cover enums in more detail. The purpose
-of these `Result` types is to encode error-handling information.
+[Il Capitolo 6][enums]<!-- ignore --> coprirà gli enum in maniera più dettagliata. Lo scopo di questi tipi `Result` è quello di codificare le informazioni di error-handling.
 
-`Result`’s variants are `Ok` and `Err`. The `Ok` variant indicates the
-operation was successful, and inside `Ok` is the successfully generated value.
-The `Err` variant means the operation failed, and `Err` contains information
-about how or why the operation failed.
+Le varianti di `Result` sono `Ok` ed `Err`. La variante `Ok` indica che l'operazione è avvenuta con successo, ed all'interno di `Ok` il valore è stato generato correttamente.
+La variante `Err` indica il fallimento dell'operazione, ed `Err` contiene informazioni
+su come o perché l'operazione sia fallita.
 
-Values of the `Result` type, like values of any type, have methods defined on
-them. An instance of `Result` has an [`expect` method][expect]<!-- ignore -->
-that you can call. If this instance of `Result` is an `Err` value, `expect`
-will cause the program to crash and display the message that you passed as an
-argument to `expect`. If the `read_line` method returns an `Err`, it would
-likely be the result of an error coming from the underlying operating system.
-If this instance of `Result` is an `Ok` value, `expect` will take the return
-value that `Ok` is holding and return just that value to you so you can use it.
-In this case, that value is the number of bytes in the user’s input.
+I valori del tipo `Result` , come i valori di qualunque tipo, hanno metodi definiti su di loro. Un istanza di `Result` ha un [metodo `expect`][expect]<!-- ignore -->
+che puoi richiamare. Se quest'istanza di `Result` è un valore `Err` , `expect`
+manderà in crash il programma, e mostrerà un messaggio con il messaggio che hai passato come argomento ad `expect`. Se il metodo `read_line` ritorna un `Err`, sarà probabile che il risultato di un errore arrivi dal sistema operativo sottostante.
+Se l'istanza di `Result` è un valore `Ok` , `expect` prenderà il valore return che `Ok` contiene e lo ritorna a te, in modo tale che tu possa utilizzarlo. In questo caso, quel valore è un numero di byte nell'input dell'utente.
 
-If you don’t call `expect`, the program will compile, but you’ll get a warning:
+Se non chiami `expect`, il programma compilerà, ma ti darà un warning:
 
 ```console
 {{#include ../listings/ch02-guessing-game-tutorial/no-listing-02-without-expect/output.txt}}
 ```
 
-Rust warns that you haven’t used the `Result` value returned from `read_line`,
-indicating that the program hasn’t handled a possible error.
+Rust ti avverte del mancato utilizzo del valore `Result` ritornato da `read_line`,
+indicando che il programma non ha gestito un possibile errore.
 
-The right way to suppress the warning is to actually write error-handling code,
-but in our case we just want to crash this program when a problem occurs, so we
-can use `expect`. You’ll learn about recovering from errors in [Chapter
-9][recover]<!-- ignore -->.
+Il modo giusto per evitare il warning è scrivere il codice di error-handling,
+ma nel nostro caso, vogliamo che il programma crashi qualora sopraggiunga un promlema, quindi possiamo usare `expect`. Imparerai di più su come gestire gli errori nel [Capitolo 9][recover]<!-- ignore -->.
 
-### Printing Values with `println!` Placeholders
+### Stampare Valori con `println!` ed i Placeholder
 
-Aside from the closing curly bracket, there’s only one more line to discuss in
-the code so far:
+Oltre alla parentesi graffa di chiusura, c'è solo un'altra riga di cui parlare nel codice che abbiamo scritto fino ad ora:
 
 ```rust,ignore
 {{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-01/src/main.rs:print_guess}}
 ```
 
-This line prints the string that now contains the user’s input. The `{}` set of
-curly brackets is a placeholder: think of `{}` as little crab pincers that hold
-a value in place. When printing the value of a variable, the variable name can
-go inside the curly brackets. When printing the result of evaluating an
-expression, place empty curly brackets in the format string, then follow the
-format string with a comma-separated list of expressions to print in each empty
-curly bracket placeholder in the same order. Printing a variable and the result
-of an expression in one call to `println!` would look like this:
+Questa riga stampa la stringa che ora contiene l'input dell'utente. La `{}` coppia di parentesi graffe sono un placeholder (segnaposto): pensa a `{}` come ad una piccola chela di granchio che mantiene il valore al suo posto. Quando stampiamo il valore di una variabile, il nome della stessa va nelle parentesi graffe. Quando stampi il risultato di un'espressione, metti delle parentesi graffe vuote nella stringa formattata, e poi inserisci la lista di espressioni da stampare separate l'una dall'altra da una virgola nello stesso ordine nel quale hai posizionato nella stringa ogni coppia di parentesi graffe vuote placeholder. Stampare una variabile ed il risultato di un'espressione in una sola chiamata di `println!` sarà simile al seguente esempio:
 
 ```rust
 let x = 5;
@@ -291,11 +205,11 @@ let y = 10;
 println!("x = {x} and y + 2 = {}", y + 2);
 ```
 
-This code would print `x = 5 and y + 2 = 12`.
+Quello che verrà stampato da questo codice è  `x = 5 and y + 2 = 12`.
 
-### Testing the First Part
+### Testare la Prima Parte
 
-Let’s test the first part of the guessing game. Run it using `cargo run`:
+Testiamo la prima parte del nostro guessing game. Eseguilo usando `cargo run`:
 
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-01/
@@ -314,8 +228,7 @@ Please input your guess.
 You guessed: 6
 ```
 
-At this point, the first part of the game is done: we’re getting input from the
-keyboard and then printing it.
+A questo punto, la prima parte del gioco è completa: prendiamo l'input da tastiera e lo stampiamo.
 
 ## Generating a Secret Number
 

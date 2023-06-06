@@ -1,19 +1,19 @@
 # The Rust Programming Language
 
-*by Steve Klabnik and Carol Nichols, with contributions from the Rust Community*
+*di Steve Klabnik and Carol Nichols, con il contibuto della Community Rust*
 
-This version of the text assumes you’re using Rust 1.65 (released 2022-11-03)
-or later. See the [“Installation” section of Chapter 1][install]<!-- ignore -->
-to install or update Rust.
+Questa versione del manuale assume che tu stia usando Rust 1.65 (rilasciato il 2022-11-03)
+o superiore. Vedi [La sezione del Capitolo 1 “Installazione”][install]<!-- ignore -->
+per installare od aggiornare Rust.
 
-The HTML format is available online at
+Il formato HTML è disponibile online a
 [https://doc.rust-lang.org/stable/book/](https://doc.rust-lang.org/stable/book/)
-and offline with installations of Rust made with `rustup`; run `rustup docs
---book` to open.
+ed offline con l'installazione di Rust fatta con `rustup`; esegui `rustup docs
+--book` per aprirlo.
 
-Several community [translations] are also available.
+Sono disponibili anche diverse [traduzioni] della community.
 
-This text is available in [paperback and ebook format from No Starch
+Questo testo è disponibile in [formato cartaceo ed ebook da No Starch
 Press][nsprust].
 
 [install]: ch01-01-installation.html
@@ -21,6 +21,4 @@ Press][nsprust].
 [nsprust]: https://nostarch.com/rust
 [translations]: appendix-06-translation.html
 
-> **🚨 Want a more interactive learning experience? Try out a different version
-> of the Rust Book, featuring: quizzes, highlighting, visualizations, and
-> more**: <https://rust-book.cs.brown.edu>
+> **🚨 Vuoi un'esperienza d'apprendimento più interattiva? Prova una versione differente del Rust Book, comprendente: quiz, highlighting, visualizzazioni, ed altro ancora**: <https://rust-book.cs.brown.edu>
